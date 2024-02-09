@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+ {% if message %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+  {% if message1 %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message1 }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+<main id='main' class='main'>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class='d-flex justify-content-between align-items-center'>
+          <h5 class="card-title">Bookings</h5>
+          <a href='../book'><button class='btn btn-info'>Back</button></a>
+            </div>
+          <!-- Default Table -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Firstname</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Carname</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                  <th scope="col">Edit</th>
+                  <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for i in mydata %}
+              <tr>
+                <td>{{i.Firstname}}</td>
+                <td>{{i.Lastname}}</td>
+                <td>{{i.Carname}}</td>
+                <td>{{i.City}}</td>
+                <td>{{i.State}}</td>
+
+                  <td><i title='Edit' type='button' class="bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#edituser{{i.Carname}}"></i></td>
+                   <div class="modal fade" id="edituser{{i.Carname}}" tabindex="-1">
+
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Edit Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form class="row g-3" action='../../show' method='post'>
+                      {% csrf_token %}
+
+                      <div class="col-md-12">
+                        <input name='id' type="text" class="form-control"  value={{i.id}} hidden>
+                      </div>
+                          <div class="col-md-12">
+                            <input name='Firstname' type="text" class="form-control" placeholder="First Name" value={{i.Firstname}}>
+                          </div>
+                          <div class="col-md-12">
+                            <input name='Lastname' type="text" class="form-control" placeholder="Last Name" value={{i.Lastname}}>
+                          </div>
+                         <div class="col-md-12">
+                            <input name='Carname' type="text" class="form-control" placeholder="Car Name" value={{i.Carname}}>
+                          </div>
+                          <div class="col-12">
+                            <input name='City' type="text" class="form-control" placeholder="City" value={{i.City}}>
+                          </div>
+                          <div class="col-12">
+                              <button class='btn btn-success' name='save'>Save Changes</button>
+                          </div>
+
+                        <td><i type ='button' class="bi bi-trash3" data-bs-toggle="modal" data-bs-target="#basicModal{{i.Carname}}"></i>
+
+            <div class="modal fade" id="basicModal{{i.Carname}}" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Are you sure To Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href='../../show/{{i.Carname}}'><button type="button" class="btn btn-danger">Delete</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+                        </form>
+
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <!-- End Default Table Example -->
+        </div>
+      </div>
+
+
+</main>
+
+</body>
+</html>
